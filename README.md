@@ -1,5 +1,7 @@
 # BachelorProject - MDF/Stepper OpenSource Robotic Arm
 
+![Image of the robotic arm in fusion 360](\Resources\Project Documentation\Arm_Picture.png "Robotic Arm")
+
 ## Table of Content
 
 1. [Naming Conventions](#naming-conventions) : To be one the same page about the words mentioned
