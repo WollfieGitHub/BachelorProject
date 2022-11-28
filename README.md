@@ -25,9 +25,17 @@ arms right away so here is how I named the different parts of the robot :
 
 ### Mechanical Pieces
 
+#### Screws
+- [x16] : M4*12mm > Nema 17 Stepper Upper connection
+- [x12] : M3*20mm > Nema 17 to Gearbox Adapter Connection
+  - You might not need these
+- 
 
 ### Raw Material
 
 ## Assembly Instructions
+Some holes (I'm thinking about the motors' upper connection but there might be more) need
+to be enlarged so the needed screw can fit
+
 
 ## Control Software
