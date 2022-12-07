@@ -10,8 +10,10 @@
    3. [Raw Material](#raw-material)
 2. [Assembly Instructions](#assembly-instructions) : Step-by-step instructions to build the arm
 3. [Control Software](#control-software) : Download instructions for a basic software to control the arm
-
-
+   1. [Download Instructions](#download-instructions) : Download instructions
+   2. [Code Documentation](#developer-instructions): Instructions to code extensions fo the software
+      1. [Server](#server) : The server side of the software
+      2. [Client](#client) : The client side of the software
 
 ## Building Prerequisites
 
@@ -32,4 +34,79 @@
 
 
 
-## Control Software
+## Control Software : Cottus Arm Controller
+
+### Download Instructions
+
+### Developer Instructions
+
+#### General Architecture
+The arm's controller hosts a server which the software's web client
+connects to in order to control it.
+
+#### Server
+
+##### Framework used :
+The framework chosen to code the backend of the application is Quarkus. It is a recent
+framework based on Spring Boot. It has a well documented API that I invite you to [check
+here](https://quarkus.io/). 
+
+#### Architecture :
+```
+src/java/packagename/
+   ⎿ dto
+   ⎿ exception
+   ⎿ models
+   ⎿ repositories
+   ⎿ resources
+   ⎿ security
+   ⎿ services
+   ⎿ utils
+```
+##### dto
+Objects sent by Quarkus as a response to an HTTP request are serialized by the 
+Jackson library. They are decomposed into basic types to the JSON format. 
+In order to facilitate this process and agree with the frontend to a common representation
+of the objects travelling over the network, we use the DTO (Data Transfer Objects) layer.
+
+As such, each object is re-declared in this layer and made serializable for the Jackson
+library. The exact same definition of the DTOs can be found on the frontend's side. 
+Only fields interesting to the other side of the network should be specified on this layer,
+as the rest of them are not relevant and may often constitute abstraction leaks.
+
+##### exception
+This directory holds all the custom exceptions for the application
+
+##### models
+This is the only directory (along with `utils` to some extent) that should hold the implementation
+details of the model behind your application (also referred as "business logic"). 
+
+In our case, it holds all the computation for the control of the arm. 
+
+##### repositories
+
+TODO
+
+##### resources
+The `resources` directory declares all the endpoints reachable by the frontend. Handling
+of all types of HTTP requests (`GET`, `POST`, ...) is implemented here even though it can
+be mostly summed up to forwarding the calls to the `services` layer.
+
+##### security
+This directory handles the security logic of the application, which currently isn't much.
+
+For now, it simply checks that a client trying to establish a connection to websocket does
+so with a valid token that it previously got from an HTTP request to the server.
+
+##### utils
+Everything that isn't really proper to the business logic goes here. That includes
+things like implementation of mathematical concepts like Vector3D...
+
+#### Client
+##### Framework used :
+The framework chosen to code the frontend of the application
+is [React](https://reactjs.org/) with a layer of [TypeScript](https://www.typescriptlang.org/)
+on top to enforce types and have a cleaner code with improved auto-completion from the IDE.
+
+The React code also uses the [Material UI](https://mui.com/material-ui/getting-started/overview/)
+library to have nice-looking components out of the box.
