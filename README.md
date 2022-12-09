@@ -113,13 +113,15 @@ The React code also uses the [Material UI](https://mui.com/material-ui/getting-s
 library to have nice-looking components out of the box.
 
 ## Scholar Papers:
-Papers that I read fully or just in diagonal
-- [Design, Analysis and Implementation of a Robotic Arm](Resources/Papers/4DesignAnalysisandImplementationofaRoboticArm-TheAnimator.pdf)
-- [Design and Implementation of a 6-DOF Intelligent Single-arm](Resources/Papers/25883917.pdf)
-- [Modeling and Analysis of a 6 DOF robotic arm manipulator](Resources/Papers/CJEEE_2012.pdf)
-- [Solving Kinematics Problems of a 6-DOF Robot Manipulator](Resources/Papers/CSC2593.pdf)
-- [Design and Development of a Robotic Arm](Resources/Papers/Design_and_development_of_a_robotic_arm.pdf)
-- [ANYpulator: Design and Control of a Safe Robotic Arm](Resources/Papers/eth-49493-01.pdf)
-- [Design and Analysis of six DOF Robotic Manipulator](Resources/Papers/Pratheep_2021_IOP_Conf._Ser.__Mater._Sci._Eng._1057_012034.pdf)
-- [Design, analysis and fabrication of robotic arm for sorting of multi-materials](Resources/Papers/Roboticarmforsortingofmulti-materialsZolBahri-Khoo.pdf)
+Papers that I read fully or just in diagonal in the format :
+`<Relevance>/5 - Name`
 
+- `_/5` - [Design, Analysis and Implementation of a Robotic Arm](Resources/Papers/4DesignAnalysisandImplementationofaRoboticArm-TheAnimator.pdf)
+- `_/5` - [Design and Implementation of a 6-DOF Intelligent Single-arm](Resources/Papers/25883917.pdf)
+- `_/5` - [Modeling and Analysis of a 6 DOF robotic arm manipulator](Resources/Papers/CJEEE_2012.pdf)
+- `_/5` - [Solving Kinematics Problems of a 6-DOF Robot Manipulator](Resources/Papers/CSC2593.pdf)
+- `_/5` - [Design and Development of a Robotic Arm](Resources/Papers/Design_and_development_of_a_robotic_arm.pdf)
+- `_/5` - [ANYpulator: Design and Control of a Safe Robotic Arm](Resources/Papers/eth-49493-01.pdf)
+- `_/5` - [Design and Analysis of six DOF Robotic Manipulator](Resources/Papers/Pratheep_2021_IOP_Conf._Ser.__Mater._Sci._Eng._1057_012034.pdf)
+- `_/5` - [Design, analysis and fabrication of robotic arm for sorting of multi-materials](Resources/Papers/Roboticarmforsortingofmulti-materialsZolBahri-Khoo.pdf)
+- `5/5` - [Implementing HuPf Algorithm for the Inverse Kinematics of General 6R/P Manipulators](Resources/Papers/main.pdf)
