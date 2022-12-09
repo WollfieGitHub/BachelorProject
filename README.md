@@ -9,11 +9,12 @@
    2. [Mechanical Pieces](#mechanical-pieces)
    3. [Raw Material](#raw-material)
 2. [Assembly Instructions](#assembly-instructions) : Step-by-step instructions to build the arm
-3. [Control Software](#control-software) : Download instructions for a basic software to control the arm
+3. [Control Software](#control-software--cottus-arm-controller) : Download instructions for a basic software to control the arm
    1. [Download Instructions](#download-instructions) : Download instructions
    2. [Code Documentation](#developer-instructions): Instructions to code extensions fo the software
       1. [Server](#server) : The server side of the software
       2. [Client](#client) : The client side of the software
+4. [Scholar Papers](#scholar-papers): The scholar papers that were useful to this project
 
 ## Building Prerequisites
 
@@ -110,3 +111,15 @@ on top to enforce types and have a cleaner code with improved auto-completion fr
 
 The React code also uses the [Material UI](https://mui.com/material-ui/getting-started/overview/)
 library to have nice-looking components out of the box.
+
+## Scholar Papers:
+Papers that I read fully or just in diagonal
+- [Design, Analysis and Implementation of a Robotic Arm](Resources/Papers/4DesignAnalysisandImplementationofaRoboticArm-TheAnimator.pdf)
+- [Design and Implementation of a 6-DOF Intelligent Single-arm](Resources/Papers/25883917.pdf)
+- [Modeling and Analysis of a 6 DOF robotic arm manipulator](Resources/Papers/CJEEE_2012.pdf)
+- [Solving Kinematics Problems of a 6-DOF Robot Manipulator](Resources/Papers/CSC2593.pdf)
+- [Design and Development of a Robotic Arm](Resources/Papers/Design_and_development_of_a_robotic_arm.pdf)
+- [ANYpulator: Design and Control of a Safe Robotic Arm](Resources/Papers/eth-49493-01.pdf)
+- [Design and Analysis of six DOF Robotic Manipulator](Resources/Papers/Pratheep_2021_IOP_Conf._Ser.__Mater._Sci._Eng._1057_012034.pdf)
+- [Design, analysis and fabrication of robotic arm for sorting of multi-materials](Resources/Papers/Roboticarmforsortingofmulti-materialsZolBahri-Khoo.pdf)
+

@@ -3,6 +3,7 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Software/cottus-controller" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Software/cottus-controller/client" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Software/cottus-controller/server" vcs="Git" />
   </component>
 </project>
