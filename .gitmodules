@@ -1,0 +1,3 @@
+[submodule "Software/cottus-controller"]
+	path = Software/cottus-controller
+	url = https://github.com/WollfieGitHub/cottus-arm-controller
