@@ -20,6 +20,9 @@
 
 ### Electronics
 
+#### Raspberry Pi
+- user: `cottus-pi`
+- pass: `cottus-pi-s3cur3`
 
 ### Mechanical Pieces
 
@@ -114,7 +117,7 @@ library to have nice-looking components out of the box.
 
 ## Scholar Papers:
 Papers that I read fully or just in diagonal in the format :
-`<Relevance>/5 - Name`
+`<Relevance>/5 - Name : [Desciption/Note]`
 
 - `_/5` - [Design, Analysis and Implementation of a Robotic Arm](Resources/Papers/4DesignAnalysisandImplementationofaRoboticArm-TheAnimator.pdf)
 - `_/5` - [Design and Implementation of a 6-DOF Intelligent Single-arm](Resources/Papers/25883917.pdf)
@@ -126,3 +129,13 @@ Papers that I read fully or just in diagonal in the format :
 - `_/5` - [Design, analysis and fabrication of robotic arm for sorting of multi-materials](Resources/Papers/Roboticarmforsortingofmulti-materialsZolBahri-Khoo.pdf)
 - `1/5` - [Implementing HuPf Algorithm for the Inverse Kinematics of General 6R/P Manipulators](Resources/Papers/main.pdf)
 - `5/5` - [Solution of Inverse Kinematics for 6R Robot Manipulators With Offset Wrist Based on Geometric Algebra](Resources/Papers/jmr_005_03_031010.pdf)
+- `_/5` - [Introduction to Inverse Kinematics](Resources/Papers/iksurvey.pdf) : List of different methods for 
+solving inverse kinematics numerically
+- `5/5` - [Analytical Inverse Kinematic Computation for
+  7-DOF Redundant Manipulators With Joint Limits
+  and Its Application to Redundancy Resolution](Resources/Papers/Analytical_Inverse_Kinematic_Computation_for_7-DOF_Redundant_Manipulators_With_Joint_Limits_and_Its_Application_to_Redundancy_Resolution.pdf)
+: Complete solution for analytical Inverse Kinematics
+- `4/5` - [An Analytical Solution for Inverse Kinematics of
+  7-DOF Redundant Manipulators with Offsets at
+  Elbow and Wrist](Resources/Papers/An_Analytical_Solution_to_Inverse_Kinematics_of_Seven_Degree-of-freedom_Redundant_Manipulator.pdf) : Helped 
+understand the previous paper
