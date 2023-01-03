@@ -1,0 +1,3 @@
+C:/Users/leowo/Dev/EPFL/Bachelor_Project/Software/arduino-controller/cmake-build-debug/CMakeFiles/controller.dir
+C:/Users/leowo/Dev/EPFL/Bachelor_Project/Software/arduino-controller/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/leowo/Dev/EPFL/Bachelor_Project/Software/arduino-controller/cmake-build-debug/CMakeFiles/rebuild_cache.dir
