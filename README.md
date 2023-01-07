@@ -1,5 +1,5 @@
 ![](https://dcbadge.vercel.app/api/shield/225302262254141441?style=flat&theme=discord-inverted)
-[![Discord](https://img.shields.io/discord/1061228737884061706?label=Any%20problem%2C%20just%20ask%20here&style=plastic)](https://discord.gg/jazH8eeF4x)
+[![Discord](https://img.shields.io/discord/1061228737884061706?label=For%20Questions&logo=Discord&logoColor=%23ffffff)](https://discord.gg/jazH8eeF4x)
 
 # BachelorProject - MDF/Stepper OpenSource Robotic Arm
 
