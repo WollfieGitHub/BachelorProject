@@ -1,4 +1,6 @@
 ![](https://dcbadge.vercel.app/api/shield/225302262254141441?style=flat&theme=discord-inverted)
+![Discord](https://img.shields.io/discord/1061228737884061706?label=Any%20Problem%2C%20Just%20ask%20Here&style=plastic)
+
 # BachelorProject - MDF/Stepper OpenSource Robotic Arm
 
 ![Image of the robotic arm in fusion 360](/Resources/Project_Documentation/Arm_Picture.png "Robotic Arm")
