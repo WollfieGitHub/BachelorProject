@@ -1,3 +1,4 @@
+![](https://dcbadge.vercel.app/api/shield/225302262254141441?style=flat&theme=discord-inverted)
 # BachelorProject - MDF/Stepper OpenSource Robotic Arm
 
 ![Image of the robotic arm in fusion 360](/Resources/Project_Documentation/Arm_Picture.png "Robotic Arm")
