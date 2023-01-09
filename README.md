@@ -115,6 +115,9 @@ on top to enforce types and have a cleaner code with improved auto-completion fr
 The React code also uses the [Material UI](https://mui.com/material-ui/getting-started/overview/)
 library to have nice-looking components out of the box.
 
+##### Architecture :
+A description of the principles of the architecture used can be found [here](https://paulallies.medium.com/clean-architecture-typescript-and-react-8e509098abfe)
+
 ## Scholar Papers:
 Papers that I read fully or just in diagonal in the format :
 `<Relevance>/5 - Name : [Desciption/Note]`

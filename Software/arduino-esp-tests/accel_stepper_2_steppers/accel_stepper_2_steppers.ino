@@ -21,7 +21,7 @@ AccelStepper stepper2(MotorInterface, m2Pulse, m2Dir);
 
 void setup() {
   // put your setup code here, to run once:
-  stepper1.setMaxSpeed(1000);
+  stepper1.setMaxSpeed(10de00);
   stepper2.setMaxSpeed(1000);
 
   stepper1.setAcceleration(500);
