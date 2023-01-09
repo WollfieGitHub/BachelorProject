@@ -1,58 +1,94 @@
-﻿#include <AccelStepper.h>
-
-#define m1Pulse  6     // Blue   - 28BYJ48 pin 1
-#define m1Dir  5     // Pink   - 28BYJ48 pin 2
-#define m1Reduc 50    // Motor Gearbox Reduction
-#define m1MicStep 4   // Microstepping of the stepepr
-
-#define m2Pulse  11     // Yellow - 28BYJ48 pin 3
-#define m2Dir  10     // Orange - 28BYJ48 pin 
-#define m2Reduc 10    // Motor Gearbox Reduction
-#define m2MicStep 4   // Microstepping of the stepper
-
-#define degPerStep 1.8 // Number of degrees in one step
+#include <AccelStepper.h>
 
 #define MotorInterface 1
- 
-// Define two motor objects
-// The sequence 1-3-2-4 is required for proper sequencing of 28BYJ48
-AccelStepper stepper1(MotorInterface, m1Pulse, m1Dir);
-AccelStepper stepper2(MotorInterface, m2Pulse, m2Dir);
+#define NB_STEPPERS 7
+
+// TODO CHECK REDUCTIONS
+const int gearbox_reductions[] = {   50,  10,  20,  20,  10,  10,  10 };
+const int pulsePins[] =          {    0,   0,   0,   0,   0,   0,   0 };
+const int dirPins[] =            {    0,   0,   0,   0,   0,   0,   0 };
+const int micro_steps[] =        {    4,   4, ...};
+const int deg_per_step[] =       {  1.8, 1.8, 1.8, 1.8, 1.8, 1.8, 1.8 };
+
+// Remaining distances (in steps) of the steppers to target position
+const double distances[] =       {  0.0,  0.0,  0.0,  0.0,  0.0,  0.0 };
+
+const int limit_switch_pins[] = { 0, 0, 0, 0, 0, 0, 0 };
+
+// https://hackaday.io/project/183279-accelstepper-the-missing-manual/details
+AccelStepper steppers[7];
+
+String inputString = ""; // A string that holds the command sent by the server
+
+void onDataReceived(String command);
+String dataToSend();
+
+long getSteps(int motorId, double angle);
+double getAngleRad(int motorId, long steps);
+void sendDistances();
 
 void setup() {
-  // put your setup code here, to run once:
-  stepper1.setMaxSpeed(1000);
-  stepper2.setMaxSpeed(1000);
+    // Initialize all steppers
+    for (int i = 0; i < NB_STEPPERS; ++i) {
+        steppers[i] = new AccelStepper(MotorInterface, pulsePins[i], dirPins[i]);
+        steppers[i].setMaxSpeed(50 * gearbox_reductions[i] * micro_steps[i]); // So that all motors go to same speed
+        steppers[i].setAcceleration(2 * gearbox_reductions[i] * micro_steps[i]); // So that all motors accelerate equally
+    }
 
-  stepper1.setAcceleration(500);
-  stepper2.setAcceleration(500);
+    // Initialize Serial connection
+    Serial.begin(9600);
+    // Reserve 200 bytes
+    inputString.reserve(200);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+    // put your main code here, to run repeatedly:
+    // Double check
+    for (int i = 0; i < NB_STEPPERS; ++i) {
+        // Make the stepper take one step if one is needed
+        // Relative to the current position and target position
+        steppers[i].run();
+    }
 
-  moveTo(1, 90);
-  delay(2000);
-  moveTo(2, 90);
-  delay(2000);
-  moveTo(1, 0);
-  delay(2000);
-  moveTo(2, 0);
-  delay(2000);
+    sendDistances();
 }
 
-void moveTo(int mIndex, float deg) {
-  if (mIndex == 1) {
-    stepper1.moveTo(deg/degPerStep * m1Reduc * m1MicStep);
-    stepper1.runToPosition();
-
-  } else if (mIndex == 2) {
-    stepper2.moveTo(deg/degPerStep * m2Reduc * m2MicStep);
-    stepper2.runToPosition();
-
-  }
+void moveTo(int motorId, float angleRad) {
+    steppers[motorId].moveTo(getSteps(motorId, angleRad));
 }
 
 void serialEvent() {
+    while (Serial.available()) {
+        // get the new byte:
+        char inChar = (char)Serial.read();
+        // add it to the inputString:
+        inputString += inChar;
+        // if the incoming character is a newline, set a flag so the main loop can
+        // do something about it:
+        if (inChar == '\n') {
+            break;
+        }
+    }
+    onDataReceived(inputString);
+}
 
+void onDataReceived(String command) {
+    // TODO Set all targets position from angles
+}
+
+String dataToSend() {
+    // TODO Send all distances
+}
+
+void sendDistances() {
+    for (int i = 0; i < NB_STEPPERS; ++i) { distances[i] = steppers[i].distanceToGo(); }
+    Serial.println(dataToSend());
+}
+
+long getSteps(int motorId, double angleRad) {
+    return gearbox_reductions[motorId] * micro_steps[motorId] * (angleRad / deg_per_step[motorId])
+}
+
+double getAngleRad(int motorId, long steps) {
+    return (steps * deg_per_step[motorId]) / (gearbox_reductions[motorId] * micro_steps[motorId])
 }
