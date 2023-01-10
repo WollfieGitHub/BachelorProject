@@ -1,3 +1,5 @@
+[![Discord](https://img.shields.io/discord/1061228737884061706?label=For%20Questions&logo=Discord&logoColor=%23ffffff)](https://discord.gg/jazH8eeF4x)
+
 # BachelorProject - MDF/Stepper OpenSource Robotic Arm
 
 ![Image of the robotic arm in fusion 360](/Resources/Project_Documentation/Arm_Picture.png "Robotic Arm")
