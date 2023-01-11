@@ -28,6 +28,15 @@
 
 ### Mechanical Pieces
 
+#### 3D Printing
+
+Pieces that should be 3D printed can be found as `.stl` files in the [Prints](./Prints) directory
+
+#### Laser Cutting
+
+Pieces that should be laser cut can be found as `.dxf` files in the [Prints](./Prints) directory.
+6mm thick MDF should be used for all laser cut parts.
+
 #### Screws
 - [x16] : M4*12mm > Nema 17 Stepper Upper connection
 - [x12] : M3*20mm > Nema 17 to Gearbox Adapter Connection
@@ -38,7 +47,8 @@
 
 ## Assembly Instructions
 
-
+The Fusion 360 file of the entire arm that you can import can be found [here](./Resources/Robotic%20Arm%20v110.step). It
+contains all the 3D pieces and sketches resulting in the `.stl` and `.dxf` files you can find in the [Prints](./Prints) directory
 
 ## Control Software : Cottus Arm Controller
 
@@ -66,7 +76,11 @@ Several libraries act on top of this layer :
   - [Mongo DB with Panache](https://quarkus.io/guides/mongodb-panache) : Stores objects (animations) in Mongo Database with the Panache abstraction layer 
 
 [Docker Compose](https://docs.docker.com/compose/) is used to set up the services of this project (server and database)
-using the [docker-compose.yml file](./Software/cottus-controller/docker-compose.yml)
+using the [docker-compose.yml file](./Software/cottus-controller/docker-compose.yml).
+
+Docker-compose can be installed on Windows
+easily with [Chocolatey](https://docs.chocolatey.org/en-us/choco/setup), adding the `C:\ProgramData\chocolatey\lib` path to the `Path` System
+environment variable.
 
 #### Architecture :
 ```
