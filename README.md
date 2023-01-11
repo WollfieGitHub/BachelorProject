@@ -54,8 +54,19 @@ connects to in order to control it.
 
 ##### Framework used :
 The framework chosen to code the backend of the application is **Quarkus**. It is a recent
-framework based on Spring Boot. It has a well documented API that I invite you to [check
+framework resembling Spring Boot. It has a well documented API that I invite you to [check
 here](https://quarkus.io/). 
+
+Several libraries act on top of this layer :
+- [jSerialComm](https://github.com/Fazecast/jSerialComm) : Communicates with the ESP32 using the Serial connection
+- [Efficient Java Matrix Library (ejml)](https://github.com/lessthanoptimal/ejml) : Matrix multiplications and other operations
+- Quarkus-based :
+  - [Rest-easy-Reactive-Jackson](https://quarkus.io/guides/rest-json) : Serialization of objects and [Reactive](https://quarkus.io/guides/getting-started-reactive) endpoints
+  - [Websocket](https://quarkus.io/guides/websockets) : Communication with client using websockets
+  - [Mongo DB with Panache](https://quarkus.io/guides/mongodb-panache) : Stores objects (animations) in Mongo Database with the Panache abstraction layer 
+
+[Docker Compose](https://docs.docker.com/compose/) is used to set up the services of this project (server and database)
+using the [docker-compose.yml file](./Software/cottus-controller/docker-compose.yml)
 
 #### Architecture :
 ```
@@ -91,7 +102,10 @@ In our case, it holds all the computation for the control of the arm.
 
 ##### repositories
 
-TODO
+Repositories used for persisting objects in the application. In our case, we have
+a Mongo service running in a docker container
+
+For now, only animations are saved to the database
 
 ##### resources
 The `resources` directory declares all the endpoints reachable by the frontend. Handling
@@ -121,20 +135,12 @@ library to have nice-looking components out of the box.
 A description of the principles of the architecture used can be found [here](https://paulallies.medium.com/clean-architecture-typescript-and-react-8e509098abfe)
 
 ## Scholar Papers:
-Papers that I read fully or just in diagonal in the format :
-`<Relevance>/5 - Name : [Desciption/Note]`
+Papers that I read fully or just in diagonal in the format (Only most relevant papers read are listed here) :
+`<Relevance/How much it was used>/5 - Name : [Desciption/Note]`
 
-- `_/5` - [Design, Analysis and Implementation of a Robotic Arm](Resources/Papers/4DesignAnalysisandImplementationofaRoboticArm-TheAnimator.pdf)
-- `_/5` - [Design and Implementation of a 6-DOF Intelligent Single-arm](Resources/Papers/25883917.pdf)
-- `_/5` - [Modeling and Analysis of a 6 DOF robotic arm manipulator](Resources/Papers/CJEEE_2012.pdf)
-- `4/5` - [Solving Kinematics Problems of a 6-DOF Robot Manipulator](Resources/Papers/CSC2593.pdf)
-- `_/5` - [Design and Development of a Robotic Arm](Resources/Papers/Design_and_development_of_a_robotic_arm.pdf)
-- `_/5` - [ANYpulator: Design and Control of a Safe Robotic Arm](Resources/Papers/eth-49493-01.pdf)
-- `_/5` - [Design and Analysis of six DOF Robotic Manipulator](Resources/Papers/Pratheep_2021_IOP_Conf._Ser.__Mater._Sci._Eng._1057_012034.pdf)
-- `_/5` - [Design, analysis and fabrication of robotic arm for sorting of multi-materials](Resources/Papers/Roboticarmforsortingofmulti-materialsZolBahri-Khoo.pdf)
-- `1/5` - [Implementing HuPf Algorithm for the Inverse Kinematics of General 6R/P Manipulators](Resources/Papers/main.pdf)
+- `3/5` - [Design and Implementation of a 6-DOF Intelligent Single-arm](Resources/Papers/25883917.pdf) : Learn the existence of Denavite-Hartenberg parameters and tables
 - `5/5` - [Solution of Inverse Kinematics for 6R Robot Manipulators With Offset Wrist Based on Geometric Algebra](Resources/Papers/jmr_005_03_031010.pdf)
-- `_/5` - [Introduction to Inverse Kinematics](Resources/Papers/iksurvey.pdf) : List of different methods for 
+- `3/5` - [Introduction to Inverse Kinematics](Resources/Papers/iksurvey.pdf) : List of different methods for 
 solving inverse kinematics numerically
 - `5/5` - [Analytical Inverse Kinematic Computation for
   7-DOF Redundant Manipulators With Joint Limits
