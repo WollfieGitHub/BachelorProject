@@ -123,6 +123,9 @@ Everything that isn't really proper to the business logic goes here. That includ
 things like implementation of mathematical concepts like Vector3D...
 
 #### Client
+
+<img src="./Resources/Project_Documentation/Client_Picture.png">
+
 ##### Framework used :
 The framework chosen to code the frontend of the application
 is [React](https://reactjs.org/) with a layer of [TypeScript](https://www.typescriptlang.org/)
