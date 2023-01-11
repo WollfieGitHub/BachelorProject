@@ -124,7 +124,7 @@ things like implementation of mathematical concepts like Vector3D...
 
 #### Client
 
-<img src="./Resources/Project_Documentation/Client_Picture.png">
+<img src="./Resources/Project_Documentation/Client_Picture.png" alt="Picture of the Arm Controller Frontend page">
 
 ##### Framework used :
 The framework chosen to code the frontend of the application
