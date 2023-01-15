@@ -13,7 +13,7 @@
 2. [Assembly Instructions](#assembly-instructions) : Step-by-step instructions to build the arm
 3. [Control Software](#control-software--cottus-arm-controller) : Download instructions for a basic software to control the arm
    1. [Download Instructions](#download-instructions) : Download instructions
-   2. [Code Documentation](#developer-instructions): Instructions to code extensions fo the software
+   2. [Code Architecture Documentation](#developer-instructions): General description of the software's architecture
       1. [Server](#server) : The server side of the software
       2. [Client](#client) : The client side of the software
 4. [Scholar Papers](#scholar-papers): The scholar papers that were useful to this project
