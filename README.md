@@ -144,6 +144,9 @@ so with a valid token that it previously got from an HTTP request to the server.
 Everything that isn't really proper to the business logic goes here. That includes
 things like implementation of mathematical concepts like Vector3D...
 
+##### Dependency Graph
+![Dependency Graph of the Server's Beans](./Resources/Project_Documentation/DependencyGraph.svg)
+
 #### Client
 
 <img src="./Resources/Project_Documentation/Client_Picture.png" alt="Picture of the Arm Controller Frontend page">
