@@ -35,7 +35,8 @@ Pieces that should be 3D printed can be found as `.stl` files in the [Prints](./
 #### Laser Cutting
 
 Pieces that should be laser cut can be found as `.dxf` files in the [Prints](./Prints) directory.
-6mm thick MDF should be used for all laser cut parts.
+6mm thick MDF should be used for all laser cut parts. They are named according to the referential of 
+the arm's model in Fusion360
 
 #### Screws
 - [x16] : M4*12mm > Nema 17 Stepper Upper connection
@@ -44,6 +45,9 @@ Pieces that should be laser cut can be found as `.dxf` files in the [Prints](./P
 - 
 
 ### Raw Material
+
+- [x3] : Aluminium/Metallic axle : 8mm in diameter
+- [x1] : Wood glue stick for MDF assembly
 
 ## Assembly Instructions
 
@@ -54,11 +58,15 @@ contains all the 3D pieces and sketches resulting in the `.stl` and `.dxf` files
 
 ### Download Instructions
 
+
+
 ### Developer Instructions
 
 #### General Architecture
-The arm's controller hosts a server which the software's web client
-connects to in order to control it.
+The arm's controller hosts a server which the software's web client connects to in order to control it.
+The server opens a serial connection on startup to communicate to the Arduino Mega via predefined packets :
+- From PI to Arduino : Target angles (In degrees)
+- From Arduino to PI : Motor speed (At startup, in deg/sec) and Current angles position (In loop, in degrees)
 
 #### Server
 
@@ -68,7 +76,7 @@ framework resembling Spring Boot. It has a well documented API that I invite you
 here](https://quarkus.io/). 
 
 Several libraries act on top of this layer :
-- [jSerialComm](https://github.com/Fazecast/jSerialComm) : Communicates with the ESP32 using the Serial connection
+- [jSerialComm](https://github.com/Fazecast/jSerialComm) : Communicates with the Arduino Mega using the Serial connection
 - [Efficient Java Matrix Library (ejml)](https://github.com/lessthanoptimal/ejml) : Matrix multiplications and other operations
 - Quarkus-based :
   - [Rest-easy-Reactive-Jackson](https://quarkus.io/guides/rest-json) : Serialization of objects and [Reactive](https://quarkus.io/guides/getting-started-reactive) endpoints

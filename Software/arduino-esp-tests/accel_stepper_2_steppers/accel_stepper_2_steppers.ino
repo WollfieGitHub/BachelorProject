@@ -1,12 +1,12 @@
 #include <AccelStepper.h>
 
-#define m1Pulse  6     // Blue   - 28BYJ48 pin 1
-#define m1Dir  5     // Pink   - 28BYJ48 pin 2
+#define m1Pulse  24     // Blue   - 28BYJ48 pin 1
+#define m1Dir  26     // Pink   - 28BYJ48 pin 2
 #define m1Reduc 50    // Motor Gearbox Reduction
 #define m1MicStep 4   // Microstepping of the stepepr
 
-#define m2Pulse  11     // Yellow - 28BYJ48 pin 3
-#define m2Dir  10     // Orange - 28BYJ48 pin 
+#define m2Pulse  28     // Yellow - 28BYJ48 pin 3
+#define m2Dir  30     // Orange - 28BYJ48 pin 
 #define m2Reduc 10    // Motor Gearbox Reduction
 #define m2MicStep 4   // Microstepping of the stepper
 

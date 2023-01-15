@@ -1,47 +1,47 @@
-#include "FastAccelStepper.h"
+#include <AccelStepper.h>
 
 #define MotorInterface 1
 #define NB_STEPPERS 7
 #define SWITCH_PRESS_STATE 0
 
-#define MOTOR_SPEED 50
-#define MOTOR_ACCEL 2
+#define MOTOR_SPEED 10
+#define MOTOR_ACCEL 16
 
 #define DISTANCES_END_VALUE_MARKER "D"
 
 // TODO CHECK REDUCTIONS
-const int gearbox_reductions[] = {   50,  10,  20,  20,  10,  10,  10 };
-const int pulsePins[] =          {    0,   0,   0,   0,   0,   0,   0 };
-const int dirPins[] =            {    0,   0,   0,   0,   0,   0,   0 };
-const int micro_steps[] =        {    4,   4,   0,   0,   0,   0,   0 };
-const int deg_per_step[] =       {  1.8, 1.8, 1.8, 1.8, 1.8, 1.8, 1.8 };
-const int directions[] =         {    1,   1,   1,   1,   1,   1,   1 };
+const int pulsePins[] =          {   24,  28,  34,  38,  42,  46,  50 };
+const int dirPins[] =            {   26,  30,  36,  40,  44,  48,  52 };
+
+const int gearbox_reductions[] = {   10,  50,  10,  50,  10,  10,  10 };
+const int micro_steps[] =        {    4,   4,   1,   1,   1,   1,   1 };
+const double deg_per_step[] =       {  1.8, 1.8, 1.8, 1.8, 1.8, 1.8, 1.8 };
+const int directions[] =         {    1,   1,   1,  -1,   1,   1,   1 };
 
 // TODO CHANGE
-const double max_bound =         { 45.0, 45.0, 45.0, 45.0, 45.0, 45.0, 45.0};
-const double min_bound =         { -45.0, -45.0, -45.0, -45.0, -45.0, -45.0, 45.0};
+const double max_bound[] =         { 180.0, 45.0, 45.0, 45.0, 45.0, 45.0, 45.0};
+const double min_bound[] =         { -180.0, -45.0, -45.0, -45.0, -45.0, -45.0, 45.0};
 
 // positions (in steps) of the steppers
-double positions[] =             {  0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 }; // In radians
+double positions[] =             {  0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 }; // In degrees
 
-const int limit_switch_pins[] =  {    0,   0,   0,   0,   0,   0,   0 };
-const double limit_switch_pos[]= {  180.0,  90.0, 180.0,  90.0, 180.0,  90.0, 180.0 }; // Angle in radians, must be converted to steps
-const double setup_dist_tolerance = 5 / 180 * PI; // The previous motor must be in a 5 Degrees tolerance distance of 0 before moving the next motor 
+const int limit_switch_pins[] =  {   2, 3, 4, 5, 6, 7, 8 };
+const double limit_switch_pos[]= {  90.0,  90.0, 90.0,  45.0, 90.0,  90.0, 90.0 }; // Angle in degrees, must be converted to steps
+const double setup_dist_tolerance = 5 / 180.0 * PI; // The previous motor must be in a 5 Degrees tolerance distance of 0 before moving the next motor 
 
-bool setup_failure = true;
+bool setup_failure = false;
 int setup_index = 0;
 bool is_setup_sequence_over = false;
 
 // https://hackaday.io/project/183279-accelstepper-the-missing-manual/details
-FastAccelStepperEngine engine = FastAccelStepperEngine();
-FastAccelStepper *steppers[7] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL };
+AccelStepper *steppers[] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL };
 
 String inputString = ""; // A string that holds the command sent by the server
 
 void onDataReceived(String command);
 String dataToSend();
 
-long getSteps(int motorId, double angle);
+long getSteps(int motorId, double deg);
 double getAngleRad(int motorId, long steps);
 double getDistance(int motorId);
 void sendPositions();
@@ -56,27 +56,36 @@ double to_radians(double degrees) {
     return degrees / 180.0 * PI;
 }
 
+double to_degrees(double rad) {
+  return rad / PI * 180.0; 
+}
+
 
 void setup() {
+
+    // Initialize Serial connection
+    Serial.begin(9600);
+    Serial.println("\nStarting setup...");
+
     // Initialize all steppers
     for (int i = 0; i < NB_STEPPERS; ++i) {
-        steppers[i] = engine.stepperConnectToPin(pulsePins[i]);
-        if (!setup_failure && steppers[i]) {
-          steppers[i]->setDirectionPin(dirPins[i]);
-          steppers[i]->setSpeedInHz(MOTOR_SPEED * gearbox_reductions[i] * micro_steps[i]);    // So that all motors go to same speed
-          steppers[i]->setAcceleration(MOTOR_ACCEL * gearbox_reductions[i] * micro_steps[i]); // So that all motors go to same speed
-        } else {
-          setup_failure = true;
-        }
+        steppers[i] = new AccelStepper(1, pulsePins[i], dirPins[i]);
+        steppers[i]->setMaxSpeed(MOTOR_SPEED * gearbox_reductions[i] * micro_steps[i]);    // So that all motors go to same speed
+        steppers[i]->setAcceleration(MOTOR_ACCEL * gearbox_reductions[i] * micro_steps[i]); // So that all motors go to same speed
+
+        // Set setup speed
+        steppers[i]->setSpeed(directions[i]/4.0 * MOTOR_SPEED * gearbox_reductions[i] * micro_steps[i]);
 
         // Setup the limit switch's pin as an INPUT
         pinMode(limit_switch_pins[i], INPUT);
     }
 
-    // Initialize Serial connection
-    Serial.begin(9600);
     // Reserve 200 bytes
     inputString.reserve(200);
+
+    Serial.print("Setup complete : ");
+    Serial.println(setup_failure);
+
 }
 
 void loop() {
@@ -86,7 +95,6 @@ void loop() {
   if (!is_setup_sequence_over) { run_setup(); } 
   
   // Send positions anyway so that we can see the arm setup (Just for the sake of it)
-  sendPositions();
 
 }
 
@@ -100,23 +108,28 @@ void run_setup() {
     return; // Wait for previous motor to reach 0 position
     
   } else if(isPressed(setup_index)) {
+    Serial.println("Pressed !");
     // The steppers[setup_index] has reached the limit_switch
     // Stop the motor abruptly AND set its current position to its limit switch pos
-    steppers[setup_index]->forceStopAndNewPosition(getSteps(setup_index, limit_switch_pos[setup_index]));
+    steppers[setup_index]->stop();
+    steppers[setup_index]->setCurrentPosition(getSteps(setup_index, limit_switch_pos[setup_index]));
      // THIS ONLY WORKS CONSIDERING THAT THE ARM WITH ALL MOTORS TO 0 IS AN ARM POINTING TOWARDS THE CEILING
-    steppers[setup_index]->moveTo(0); 
+    steppers[setup_index]->moveTo(0);
+    Serial.println(steppers[setup_index]->currentPosition());
+    Serial.println(getAngleDeg(setup_index, steppers[setup_index]->distanceToGo()));
+    steppers[setup_index]->runToPosition(); 
     setup_index++;
 
   } else {
     // Move the stepper in the direction of its limit switch, one step by one step
-    steppers[setup_index]->move(directions[setup_index] * 1);
+    steppers[setup_index]->runSpeed();
   }
 }
 
-void moveTo(int motorId, double angleRad) {
+void moveTo(int motorId, double deg) {
     // Check that the motor is in bounds
-    if ( to_degrees(min_bound[motorId]) < angleRad && angleRad < to_degrees(max_bound[motorId]) ) {
-        steppers[motorId]->moveTo(getSteps(motorId, angleRad));
+    if ( min_bound[motorId] < deg && deg < max_bound[motorId] ) {
+        steppers[motorId]->moveTo(getSteps(motorId, deg));
     }
 }
 
@@ -128,13 +141,14 @@ void serialEvent() {
         char inChar = (char)Serial.read();
         // add it to the inputString:
         inputString += inChar;
-        // if the incoming character is a newline, set a flag so the main loop can
+        // if the incoming character is a newline, call onDataReceived and clear the string
         // do something about it:
         if (inChar == '\n') {
+            onDataReceived(inputString);
+            inputString = "";
             break;
         }
     }
-    onDataReceived(inputString);
 }
 
 void onDataReceived(String command) {
@@ -167,19 +181,19 @@ void send_motor_speed() {
 }
 
 double getDistance(int motorId) {
-  return steppers[motorId]->targetPos() - steppers[motorId]->getCurrentPosition();
+  return steppers[motorId]->distanceToGo();
 }
 
 void sendPositions() {
-    for (int i = 0; i < NB_STEPPERS; i++) { positions[i] = getAngleRad(i, steppers[i]->getCurrentPosition()); } // Convert the positions in step to radians and store it
+    for (int i = 0; i < NB_STEPPERS; i++) { positions[i] = getAngleDeg(i, steppers[i]->currentPosition()); } // Convert the positions in step to radians and store it
     Serial.println(dataToSend()); // Then send all the positions to the arm
 }
 
-long getSteps(int motorId, double angleRad) {
-    return gearbox_reductions[motorId] * micro_steps[motorId] * (angleRad / deg_per_step[motorId]);
+long getSteps(int motorId, double deg) {
+    return (gearbox_reductions[motorId] * micro_steps[motorId] * deg) / deg_per_step[motorId];
 }
 
-double getAngleRad(int motorId, long steps) {
+double getAngleDeg(int motorId, long steps) {
     return (steps * deg_per_step[motorId]) / (gearbox_reductions[motorId] * micro_steps[motorId]);
 }
 
