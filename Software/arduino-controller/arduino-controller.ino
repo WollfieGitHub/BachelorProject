@@ -14,20 +14,22 @@ const int pulsePins[] =          {   24,  28,  34,  38,  42,  46,  50 };
 const int dirPins[] =            {   26,  30,  36,  40,  44,  48,  52 };
 
 const int gearbox_reductions[] = {   10,  50,  10,  50,  10,  10,  10 };
-const int micro_steps[] =        {    4,   4,   1,   1,   1,   1,   1 };
+const int micro_steps[] =        {    8,   8,   1,   1,   1,   1,   1 };
 const double deg_per_step[] =       {  1.8, 1.8, 1.8, 1.8, 1.8, 1.8, 1.8 };
-const int directions[] =         {    1,   1,   1,  -1,   1,   1,   1 };
+const int directions[] =         {    1,   1,   1,  1,   1,   1,   1 };
 
 // TODO CHANGE
-const double max_bound[] =         { 180.0, 45.0, 45.0, 45.0, 45.0, 45.0, 45.0};
-const double min_bound[] =         { -180.0, -45.0, -45.0, -45.0, -45.0, -45.0, 45.0};
+const double max_bound[] =         { 180.0, 90.0, 180.0, 90.0, 180.0, 90.0, 180.0};
+const double min_bound[] =         { -180.0, -45.0, -180.0, -45.0, -180.0, -45.0, -180.0};
 
 // positions (in steps) of the steppers
 double positions[] =             {  0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 }; // In degrees
 
 const int limit_switch_pins[] =  {   2, 3, 4, 5, 6, 7, 8 };
-const double limit_switch_pos[]= {  90.0,  90.0, 90.0,  45.0, 90.0,  90.0, 90.0 }; // Angle in degrees, must be converted to steps
+const double limit_switch_pos[]= {  180.0,  45.0, 180.0,  45.0, 180.0,  45.0, 180.0 }; // Angle in degrees, must be converted to steps
+const double homing_speed_factor[] = { 4.0, 0.25,  4.0,   0.25,  4.0,   0.25,  4.0 };
 const double setup_dist_tolerance = 5 / 180.0 * PI; // The previous motor must be in a 5 Degrees tolerance distance of 0 before moving the next motor 
+
 
 bool setup_failure = false;
 int setup_index = 0;
@@ -70,11 +72,18 @@ void setup() {
     // Initialize all steppers
     for (int i = 0; i < NB_STEPPERS; ++i) {
         steppers[i] = new AccelStepper(1, pulsePins[i], dirPins[i]);
-        steppers[i]->setMaxSpeed(MOTOR_SPEED * gearbox_reductions[i] * micro_steps[i]);    // So that all motors go to same speed
+        steppers[i]->setMaxSpeed(
+          homing_speed_factor[i] * 
+          MOTOR_SPEED * gearbox_reductions[i] * micro_steps[i]
+        );    // So that all motors go to same speed
         steppers[i]->setAcceleration(MOTOR_ACCEL * gearbox_reductions[i] * micro_steps[i]); // So that all motors go to same speed
 
         // Set setup speed
-        steppers[i]->setSpeed(directions[i]/4.0 * MOTOR_SPEED * gearbox_reductions[i] * micro_steps[i]);
+        steppers[i]->setSpeed(
+           homing_speed_factor[i] *
+           directions[i]/4.0 * MOTOR_SPEED *
+           gearbox_reductions[i] * micro_steps[i]
+        );
 
         // Setup the limit switch's pin as an INPUT
         pinMode(limit_switch_pins[i], INPUT);
@@ -108,15 +117,12 @@ void run_setup() {
     return; // Wait for previous motor to reach 0 position
     
   } else if(isPressed(setup_index)) {
-    Serial.println("Pressed !");
     // The steppers[setup_index] has reached the limit_switch
     // Stop the motor abruptly AND set its current position to its limit switch pos
     steppers[setup_index]->stop();
     steppers[setup_index]->setCurrentPosition(getSteps(setup_index, limit_switch_pos[setup_index]));
      // THIS ONLY WORKS CONSIDERING THAT THE ARM WITH ALL MOTORS TO 0 IS AN ARM POINTING TOWARDS THE CEILING
     steppers[setup_index]->moveTo(0);
-    Serial.println(steppers[setup_index]->currentPosition());
-    Serial.println(getAngleDeg(setup_index, steppers[setup_index]->distanceToGo()));
     steppers[setup_index]->runToPosition(); 
     setup_index++;
 
@@ -198,5 +204,5 @@ double getAngleDeg(int motorId, long steps) {
 }
 
 bool isPressed(int switchPin) {
-    return digitalRead(limit_switch_pins[switchPin]) == SWITCH_PRESS_STATE;
+  return digitalRead(limit_switch_pins[switchPin]) == SWITCH_PRESS_STATE;
 }

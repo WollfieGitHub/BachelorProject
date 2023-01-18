@@ -16,7 +16,8 @@
    2. [Code Architecture Documentation](#developer-instructions): General description of the software's architecture
       1. [Server](#server) : The server side of the software
       2. [Client](#client) : The client side of the software
-4. [Scholar Papers](#scholar-papers): The scholar papers that were useful to this project
+4. [Future Work](#future-work-) : Possible improvements
+5. [Scholar Papers](#scholar-papers): The scholar papers that were useful to this project
 
 ## Building Prerequisites
 
@@ -161,6 +162,17 @@ library to have nice-looking components out of the box.
 
 ##### Architecture :
 A description of the principles of the architecture used can be found [here](https://paulallies.medium.com/clean-architecture-typescript-and-react-8e509098abfe)
+
+## Future Work:
+
+Sources of imprecision
+1. The metal pieces' insert connecting the motor's axle to the rest of the structure
+tend to untighten
+2. The PETG printed piece under the joint labelled `Shoulder_1` bends under the weight
+of the arm
+
+Other remaks :
+1. The motors must be very slow when acting with an extended arm due to the high torque
 
 ## Scholar Papers:
 Papers that I read fully or just in diagonal in the format (Only most relevant papers read are listed here) :
